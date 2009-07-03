@@ -111,9 +111,9 @@
         <version>2.0-beta-9</version>
         <configuration>
           <!--
-                  During release:perform, execute deploy changes:changes-report
-                  assembly:assembly wagon:upload changes:announcement-mail to upload
-                  the distribution to /opt/ingrid/distributions
+            During release:perform, execute deploy changes:changes-report
+            assembly:assembly wagon:upload changes:announcement-mail to upload
+            the distribution to /opt/ingrid/distributions
           -->
           <goals>deploy changes:changes-report assembly:assembly wagon:upload changes:announcement-mail -Dproject.url=</goals>
         </configuration>
