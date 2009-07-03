@@ -22,7 +22,6 @@
     <dependency>
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-installer</artifactId>
-      <version>1.0.0</version>
     </dependency>
   </dependencies>
   <repositories>
