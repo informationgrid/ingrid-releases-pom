@@ -22,6 +22,8 @@
     <dependency>
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-installer</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
     </dependency>
   </dependencies>
   <repositories>
