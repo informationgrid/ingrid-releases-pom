@@ -115,6 +115,10 @@
           <toAddresses>
             <toAddress implementation="java.lang.String">ingrid-announcement@wemove.com</toAddress>
           </toAddresses>
+		  <issueManagement>
+            <system>JIRA</system>
+		    <url>http://dev.wemove.com/jira/browse/INGRID</url>
+		  </issueManagement>
         </configuration>
       </plugin>
       <plugin>
@@ -123,7 +127,7 @@
         <version>1.0-beta-1</version>
         <configuration>
           <fromDir>target</fromDir>
-          <includes>${build.finalName}-installer.jar,CHANGELOG.TXT</includes>
+          <includes>${build.finalName}-installer.jar,site</includes>
           <url>file:///opt/ingrid/distributions/${project.artifactId}/${project.version}</url>
         </configuration>
       </plugin>
