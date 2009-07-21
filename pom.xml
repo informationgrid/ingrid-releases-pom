@@ -140,7 +140,8 @@
             assembly:assembly wagon:upload changes:announcement-mail to upload
             the distribution to /opt/ingrid/distributions
           -->
-          <goals>deploy changes:changes-report assembly:assembly wagon:upload changes:announcement-mail -Dproject.url=</goals>
+          <preparationGoals>clean verify deploy</preparationGoals>
+          <goals>changes:changes-report assembly:assembly wagon:upload changes:announcement-mail -Dproject.url= --non-recursive</goals>
         </configuration>
       </plugin>
     </plugins>
