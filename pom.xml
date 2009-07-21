@@ -105,6 +105,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
+        <version>2.1</version>
         <configuration>
           <smtpHost>localhost</smtpHost>
           <subject>[ingrid update announcement] ${artifactId}-${version}</subject>
@@ -115,10 +116,10 @@
           <toAddresses>
             <toAddress implementation="java.lang.String">ingrid-announcement@wemove.com</toAddress>
           </toAddresses>
-		  <issueManagement>
+          <issueManagement>
             <system>JIRA</system>
-		    <url>http://dev.wemove.com/jira/browse/INGRID</url>
-		  </issueManagement>
+            <url>http://dev.wemove.com/jira/browse/INGRID</url>
+          </issueManagement>
         </configuration>
       </plugin>
       <plugin>
@@ -140,8 +141,8 @@
             assembly:assembly wagon:upload changes:announcement-mail to upload
             the distribution to /opt/ingrid/distributions
           -->
-          <preparationGoals>clean verify deploy assembly:assembly</preparationGoals>
-          <goals>changes:changes-report wagon:upload changes:announcement-mail -Dproject.url= --non-recursive</goals>
+          <preparationGoals>clean verify deploy assembly:assembly changes:changes-report wagon:upload -Dproject.url=</preparationGoals>
+          <goals>changes:announcement-mail -Dproject.url= --non-recursive</goals>
         </configuration>
       </plugin>
     </plugins>
