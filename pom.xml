@@ -8,7 +8,7 @@
 	<groupId>de.ingrid</groupId>
 	<artifactId>ingrid-releases-pom</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.3-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<name>Ingrid Release POM</name>
 	<scm>
 		<connection>
@@ -141,7 +141,7 @@
             assembly:assembly wagon:upload changes:announcement-mail to upload
             the distribution to /opt/ingrid/distributions
           -->
-          <preparationGoals>clean verify deploy assembly:assembly changes:changes-report wagon:upload -Dproject.url=</preparationGoals>
+          <preparationGoals>clean verify deploy changes:changes-report assembly:assembly wagon:upload -Dproject.url=</preparationGoals>
           <goals>changes:announcement-mail -Dproject.url= --non-recursive</goals>
         </configuration>
       </plugin>
