@@ -69,6 +69,11 @@
 								org.tp23.antinstaller.selfextract.NonExtractor
 							</mainClass>
 						</manifest>
+            <manifestEntries>
+              <Implementation-Version>${version}</Implementation-Version>
+              <Implementation-Build>${buildNumber}</Implementation-Build>
+              <Build-Timestamp>${timestamp}</Build-Timestamp>
+            </manifestEntries>
 					</archive>
 					<descriptors>
 						<descriptor>
