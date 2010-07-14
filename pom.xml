@@ -135,6 +135,7 @@
         <configuration>
           <fromDir>target</fromDir>
           <includes>${build.finalName}-installer.jar,site*/**/*</includes>
+<!-- NOTICE: distribution directory is "artifactId". REDEFINE in project pom if different directory needed (e.g. "ingrid-iplug-ige" instead of "ingrid-mdek" !) -->
           <url>file:///opt/ingrid/distributions/${project.artifactId}/${project.version}</url>
         </configuration>
       </plugin>
