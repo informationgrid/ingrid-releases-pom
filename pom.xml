@@ -1,23 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-		<artifactId>ingrid-base-pom</artifactId>
-		<groupId>de.ingrid</groupId>
-		<version>3.4.0-SNAPSHOT</version>
-	</parent>
+    <artifactId>ingrid-base-pom</artifactId>
+    <groupId>de.ingrid</groupId>
+    <version>3.4.0-SNAPSHOT</version>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
-	<groupId>de.ingrid</groupId>
-	<artifactId>ingrid-releases-pom</artifactId>
-	<packaging>pom</packaging>
-	<version>3.4.0-SNAPSHOT</version>
-	<name>Ingrid Release POM</name>
-	<scm>
-		<connection>
-			scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/trunk
-		</connection>
-		<developerConnection>
-			scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/trunk
-		</developerConnection>
-	</scm>
+  <groupId>de.ingrid</groupId>
+  <artifactId>ingrid-releases-pom</artifactId>
+  <packaging>pom</packaging>
+  <version>3.4.0-SNAPSHOT</version>
+  <name>Ingrid Release POM</name>
+  <scm>
+    <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/trunk</connection>
+    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/trunk</developerConnection>
+  </scm>
   <dependencies>
     <dependency>
       <groupId>de.ingrid</groupId>
@@ -27,13 +23,13 @@
     </dependency>
   </dependencies>
   <!-- NEVER DELETE: InGrid repo needed for download of base pom if not present ! -->
-	<repositories>
-		<repository>
-          <id>de.ingrid.all</id>
-          <name>Maven Repo InGrid</name>
-          <url>http://harrison.its-technidata.de/archiva/repository/ingrid-all</url>
-        </repository>
-	</repositories>
+  <repositories>
+    <repository>
+      <id>de.ingrid.all</id>
+      <name>Maven Repo InGrid</name>
+      <url>http://harrison.its-technidata.de/archiva/repository/ingrid-all</url>
+    </repository>
+  </repositories>
   <build>
     <plugins>
       <plugin>
@@ -60,52 +56,51 @@
         </executions>
       </plugin>
       <plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2-beta-4</version>
-				<configuration>
-					<appendAssemblyId>true</appendAssemblyId>
-					<archive>
-						<manifest>
-							<mainClass>
-								org.tp23.antinstaller.selfextract.NonExtractor
-							</mainClass>
-						</manifest>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-4</version>
+        <configuration>
+          <appendAssemblyId>true</appendAssemblyId>
+          <archive>
+            <manifest>
+              <mainClass>org.tp23.antinstaller.selfextract.NonExtractor</mainClass>
+            </manifest>
             <manifestEntries>
               <Implementation-Version>${project.version}</Implementation-Version>
               <Implementation-Build>${buildNumber}</Implementation-Build>
               <Build-Timestamp>${timestamp}</Build-Timestamp>
             </manifestEntries>
-					</archive>
-					<descriptors>
-						<descriptor>
-							src/main/assembly/bin.xml
-						</descriptor>
-					</descriptors>
-				</configuration>
-			</plugin>
+          </archive>
+          <descriptors>
+            <descriptor>src/main/assembly/bin.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
       <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack</id>
-						<phase>compile</phase>
-						<configuration>
-							<tasks>
-								<unjar dest="target/installer">
-									<fileset dir="target/dependency/lib">
-										<include name="**/*.jar" />
-									</fileset>
-								</unjar>
-								<copy todir="target/installer/resources">
-									<fileset dir="target/dependency/resources" />
-								</copy>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack</id>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <unjar dest="target/installer">
+                  <fileset dir="target/dependency/lib">
+                    <include name="**/*.jar"/>
+                  </fileset>
+                </unjar>
+                <copy todir="target/installer/resources">
+                  <fileset dir="target/dependency/resources"/>
+                </copy>
+                <copy todir="target/installer">
+                  <fileset dir="target/dependency/utils"/>
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -135,7 +130,7 @@
         <configuration>
           <fromDir>target</fromDir>
           <includes>${project.build.finalName}-installer.jar,site*/**/*</includes>
-<!-- NOTICE: distribution directory is "artifactId". REDEFINE in project pom if different directory needed (e.g. "ingrid-iplug-ige" instead of "ingrid-mdek" !) -->
+          <!-- NOTICE: distribution directory is "artifactId". REDEFINE in project pom if different directory needed (e.g. "ingrid-iplug-ige" instead of "ingrid-mdek" !) -->
           <url>file:///opt/ingrid/distributions/${project.artifactId}/${project.version}</url>
         </configuration>
       </plugin>
