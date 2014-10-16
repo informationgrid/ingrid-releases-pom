@@ -8,11 +8,11 @@
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-releases-pom</artifactId>
   <packaging>pom</packaging>
-  <version>3.5.0-SNAPSHOT</version>
+  <version>3.5.0-SNAPSHOT-R304</version>
   <name>Ingrid Release POM</name>
   <scm>
-    <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/trunk</connection>
-    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/trunk</developerConnection>
+    <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/branches/ingrid-releases-pom-3.5_REDMINE-304_JetspeedMigration</connection>
+    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-releases-pom/branches/ingrid-releases-pom-3.5_REDMINE-304_JetspeedMigration</developerConnection>
   </scm>
   <dependencies>
     <dependency>
