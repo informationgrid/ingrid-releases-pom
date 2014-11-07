@@ -68,6 +68,8 @@
               <Implementation-Version>${project.version}</Implementation-Version>
               <Implementation-Build>${buildNumber}</Implementation-Build>
               <Build-Timestamp>${timestamp}</Build-Timestamp>
+              <Hudson-Build-Number>${BUILD_NUMBER}</Hudson-Build-Number>
+              <Hudson-Project>${JOB_NAME}</Hudson-Project>
             </manifestEntries>
           </archive>
           <descriptors>
@@ -81,7 +83,7 @@
         <executions>
           <execution>
             <id>unpack</id>
-            <phase>compile</phase>
+            <phase>prepare-package</phase>
             <configuration>
               <tasks>
                 <unjar dest="target/installer">
@@ -143,7 +145,7 @@
             assembly:single wagon:upload changes:announcement-mail to upload
             the distribution to /opt/ingrid/distributions
           -->
-          <preparationGoals>clean verify deploy changes:changes-report assembly:single wagon:upload -Dproject.url=</preparationGoals>
+          <preparationGoals>clean verify deploy changes:changes-report assembly:single wagon:upload -Dlicense.failOnMissingHeader=true -Dlicense.failOnNotUptodateHeader=true -Dproject.url=</preparationGoals>
           <goals>changes:announcement-mail -Dproject.url= --non-recursive</goals>
         </configuration>
       </plugin>
