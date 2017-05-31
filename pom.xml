@@ -46,7 +46,7 @@
           <version>${docker-plugin.version}</version>
           <configuration>
             <imageName>docker-registry.wemove.com/${project.artifactId}</imageName>
-            <dockerDirectory>docker</dockerDirectory>
+            <dockerDirectory>src/docker</dockerDirectory>
             <serverId>docker-wemove</serverId>
             <resources>
                <resource>
