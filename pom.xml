@@ -45,7 +45,7 @@
           <artifactId>docker-maven-plugin</artifactId>
           <version>${docker-plugin.version}</version>
           <configuration>
-            <imageName>docker-registry.wemove.com/${project.artifactId}</imageName>
+            <imageName>docker-registry.wemove.com/${project.artifactId}:${project.version}</imageName>
             <dockerDirectory>src/docker</dockerDirectory>
             <!-- user configured server in mavens settings.xml -->
             <serverId>docker-wemove</serverId>
@@ -56,10 +56,6 @@
                 <include>${project.build.finalName}-installer.jar</include>
               </resource>
             </resources>
-            <imageTags>
-              <!-- add an additional tag with the build version -->
-              <imageTag>${project.version}</imageTag>
-            </imageTags>
           </configuration>
           <executions>
             <execution>
@@ -233,6 +229,28 @@
           <plugin>
             <groupId>com.spotify</groupId>
             <artifactId>docker-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+        Activate when on branch develop -> -P $(git rev-parse \-\-abbrev-ref HEAD)
+        Set latest tag to created docker image
+    -->
+    <profile>
+      <id>docker-develop</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <configuration>
+              <imageTags>
+                <!-- add an additional tag with the build version -->
+                <imageTag>latest</imageTag>
+              </imageTags>
+            </configuration>
           </plugin>
         </plugins>
       </build>
