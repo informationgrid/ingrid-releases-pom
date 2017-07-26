@@ -239,7 +239,7 @@
         Set latest tag to created docker image
     -->
     <profile>
-      <id>docker-develop</id>
+      <id>docker-origin/develop</id>
       <build>
         <plugins>
           <plugin>
