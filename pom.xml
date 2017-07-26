@@ -246,6 +246,7 @@
             <groupId>com.spotify</groupId>
             <artifactId>docker-maven-plugin</artifactId>
             <configuration>
+              <pushImageTag>true</pushImageTag>
               <imageTags>
                 <!-- add an additional tag with the build version -->
                 <imageTag>latest</imageTag>
