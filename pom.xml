@@ -2,13 +2,13 @@
   <parent>
     <artifactId>ingrid-base-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>4.0.1</version>
+    <version>4.1.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-releases-pom</artifactId>
   <packaging>pom</packaging>
-  <version>4.0.3</version>
+  <version>4.1.0</version>
   <name>Ingrid Release POM</name>
   <scm>
     <connection>scm:git:git@github.com:informationgrid/ingrid-releases-pom.git</connection>
@@ -45,15 +45,16 @@
           <artifactId>docker-maven-plugin</artifactId>
           <version>${docker-plugin.version}</version>
           <configuration>
-            <imageName>docker-registry.wemove.com/${project.artifactId}</imageName>
+            <imageName>docker-registry.wemove.com/${project.artifactId}:${project.version}</imageName>
             <dockerDirectory>src/docker</dockerDirectory>
+            <!-- user configured server in mavens settings.xml -->
             <serverId>docker-wemove</serverId>
             <resources>
-               <resource>
-                 <targetPath>/</targetPath>
-                 <directory>${project.build.directory}</directory>
-                 <include>${project.build.finalName}-installer.jar</include>
-               </resource>
+              <resource>
+                <targetPath>/</targetPath>
+                <directory>${project.build.directory}</directory>
+                <include>${project.build.finalName}-installer.jar</include>
+              </resource>
             </resources>
           </configuration>
           <executions>
@@ -219,21 +220,46 @@
         </plugins>
       </build>
     </profile>
+
+    <!-- Activate docker execution -->
+    <profile>
+      <id>docker</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+        Activate when on branch develop -> -P $(git rev-parse \-\-abbrev-ref HEAD)
+        Set latest tag to created docker image
+    -->
+    <profile>
+      <id>docker-origin/develop</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <configuration>
+              <pushImageTag>true</pushImageTag>
+              <imageTags>
+                <!-- add an additional tag with the build version -->
+                <imageTag>latest</imageTag>
+              </imageTags>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
     <profile>
       <id>release</id>
       <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>com.spotify</groupId>
-              <artifactId>docker-maven-plugin</artifactId>
-              <version>${docker-plugin.version}</version>
-              <configuration>
-                <imageName>docker-registry.wemove.com/${project.artifactId}:${project.version}</imageName>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
         <plugins>
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
