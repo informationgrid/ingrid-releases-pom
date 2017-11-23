@@ -274,6 +274,13 @@
             <artifactId>maven-changes-plugin</artifactId>
             <executions>
               <execution>
+                <id>changes-check</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>changes-check</goal>
+                </goals>
+              </execution>
+              <execution>
                 <id>changes-report</id>
                 <phase>deploy</phase>
                 <goals>
