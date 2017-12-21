@@ -275,6 +275,7 @@
                   <rules>
                     <requireSnapshotVersion>
                       <message>No Releases Allowed!</message>
+                      <failWhenParentIsRelease>false</failWhenParentIsRelease>
                     </requireSnapshotVersion>
                   </rules>
                   <fail>true</fail>
