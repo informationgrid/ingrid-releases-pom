@@ -29,7 +29,7 @@ pipeline {
                     echo "Project version: $VERSION"
 
                     // Run the maven build
-                    sh 'mvn clean deploy -PrequireSnapshotVersion,docker,docker-$GIT_BRANCH -Dmaven.test.failure.ignore=true'
+                    sh 'mvn clean deploy -PrequireSnapshotVersion -Dmaven.test.failure.ignore=true'
 
                 } // withMaven will discover the generated Maven artifacts, JUnit Surefire & FailSafe & FindBugs reports...
             }
@@ -50,7 +50,7 @@ pipeline {
                     // check is release version
                     // deploy to distribution
                     // send release email
-                    sh 'mvn clean deploy -Pdocker,release'
+                    sh 'mvn clean deploy'
                 }
             }
         }
