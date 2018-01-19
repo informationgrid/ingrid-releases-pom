@@ -155,7 +155,7 @@
         <artifactId>maven-changes-plugin</artifactId>
         <version>2.12.1</version>
         <configuration>
-          <smtpHost>localhost</smtpHost>
+          <smtpHost>mail.informationgrid.eu</smtpHost>
           <subject>[ingrid update announcement] ${project.build.finalName}</subject>
           <mailSender>
             <name>Release Notification</name>
