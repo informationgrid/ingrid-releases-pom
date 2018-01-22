@@ -2,13 +2,13 @@
   <parent>
     <artifactId>ingrid-base-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>4.1.0</version>
+    <version>4.2.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-releases-pom</artifactId>
   <packaging>pom</packaging>
-  <version>4.2.0</version>
+  <version>4.2.1</version>
   <name>Ingrid Release POM</name>
   <scm>
     <connection>scm:git:git@github.com:informationgrid/ingrid-releases-pom.git</connection>
@@ -32,9 +32,9 @@
   <!-- NEVER DELETE: InGrid repo needed for download of base pom if not present ! -->
   <repositories>
     <repository>
-      <id>de.ingrid.all</id>
-      <name>Maven Repo InGrid</name>
-      <url>https://dev.informationgrid.eu/archiva/repository/ingrid-all</url>
+      <id>nexus</id>
+      <name>Nexus Repo</name>
+      <url>https://nexus.informationgrid.eu/repository/maven-public</url>
     </repository>
   </repositories>
   <build>
@@ -155,7 +155,7 @@
         <artifactId>maven-changes-plugin</artifactId>
         <version>2.12.1</version>
         <configuration>
-          <smtpHost>localhost</smtpHost>
+          <smtpHost>mail.informationgrid.eu</smtpHost>
           <subject>[ingrid update announcement] ${project.build.finalName}</subject>
           <mailSender>
             <name>Release Notification</name>
@@ -239,7 +239,7 @@
         Set latest tag to created docker image
     -->
     <profile>
-      <id>docker-origin/develop</id>
+      <id>docker-develop</id>
       <build>
         <plugins>
           <plugin>
