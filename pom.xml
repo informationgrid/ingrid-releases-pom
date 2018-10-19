@@ -8,7 +8,7 @@
   <artifactId>ingrid-releases-pom</artifactId>
   <packaging>pom</packaging>
   <version>5.0.0-SNAPSHOT</version>
-  <name>Ingrid Release POM</name>
+  <name>InGrid POM Release</name>
   <scm>
     <connection>scm:git:git@github.com:informationgrid/ingrid-releases-pom.git</connection>
     <developerConnection>scm:git:git@github.com:informationgrid/ingrid-releases-pom.git</developerConnection>
@@ -113,7 +113,9 @@
               <Implementation-Version>${project.version}</Implementation-Version>
               <Implementation-Build>${buildNumber}</Implementation-Build>
               <Build-Timestamp>${timestamp}</Build-Timestamp>
+              <!--suppress UnresolvedMavenProperty -->
               <Hudson-Build-Number>${BUILD_NUMBER}</Hudson-Build-Number>
+              <!--suppress UnresolvedMavenProperty -->
               <Hudson-Project>${JOB_NAME}</Hudson-Project>
             </manifestEntries>
           </archive>
@@ -356,6 +358,25 @@
             </executions>
           </plugin>
         </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+      Activate the development-profile when using in Eclipse/IDEA
+      This will use the develop-resources for startup, which is helpful
+      during development.
+    -->
+    <profile>
+      <id>development</id>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/develop/resources</directory>
+          </resource>
+          <resource>
+            <directory>src/main/resources</directory>
+          </resource>
+        </resources>
       </build>
     </profile>
   </profiles>
