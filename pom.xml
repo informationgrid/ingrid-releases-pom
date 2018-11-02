@@ -24,7 +24,7 @@
   <!-- ==================== PROPERTIES ==================== -->
   <properties>
     <docker-plugin.version>1.1.1</docker-plugin.version>
-    <iplug.type>NONE</iplug.type>
+    <iplug.type>OTHER</iplug.type>
   </properties>
 
   <!-- ==================== DEPENDENCIES ==================== -->
