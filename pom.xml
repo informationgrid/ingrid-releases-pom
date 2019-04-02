@@ -1,25 +1,32 @@
+<!--
+  This POM is used for components that need to be installed.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <artifactId>ingrid-base-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>4.2.2</version>
+    <version>5.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.ingrid</groupId>
   <artifactId>ingrid-releases-pom</artifactId>
   <packaging>pom</packaging>
-  <version>4.2.2</version>
-  <name>Ingrid Release POM</name>
+  <version>5.0.0</version>
+  <name>InGrid POM Release</name>
+
+  <!-- ==================== Source Code Management ==================== -->
   <scm>
     <connection>scm:git:git@github.com:informationgrid/ingrid-releases-pom.git</connection>
     <developerConnection>scm:git:git@github.com:informationgrid/ingrid-releases-pom.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
+  <!-- ==================== PROPERTIES ==================== -->
   <properties>
-    <docker-plugin.version>1.0.0</docker-plugin.version>
+    <docker-plugin.version>1.1.1</docker-plugin.version>
+    <iplug.type>OTHER</iplug.type>
   </properties>
 
+  <!-- ==================== DEPENDENCIES ==================== -->
   <dependencies>
     <dependency>
       <groupId>de.ingrid</groupId>
@@ -29,7 +36,9 @@
       <optional>true</optional>
     </dependency>
   </dependencies>
+
   <!-- NEVER DELETE: InGrid repo needed for download of base pom if not present ! -->
+  <!-- ==================== REPOSITORIES ==================== -->
   <repositories>
     <repository>
       <id>nexus</id>
@@ -37,9 +46,19 @@
       <url>https://nexus.informationgrid.eu/repository/maven-public</url>
     </repository>
   </repositories>
+
+  <!-- ==================== Build Configuration ==================== -->
   <build>
+    <!--
+      The following plugins are templates and can be easily activate by just defining them in the child pom.
+    -->
     <pluginManagement>
       <plugins>
+
+        <!--
+          Ths plugin build a docker image from the created installer and pushes it to the wemove docker registry.
+          The dockerfile has to be present in 'src/docker'.
+        -->
         <plugin>
           <groupId>com.spotify</groupId>
           <artifactId>docker-maven-plugin</artifactId>
@@ -75,9 +94,55 @@
           </executions>
         </plugin>
 
+        <!--
+          Assembly a project and create an installer which is defined in bin.xml.
+          Moreover add extra information to the Manifest.
+        -->
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.5.3</version>
+          <configuration>
+            <appendAssemblyId>true</appendAssemblyId>
+            <archive>
+              <manifest>
+                <mainClass>org.tp23.antinstaller.selfextract.NonExtractor</mainClass>
+              </manifest>
+              <manifestEntries>
+                <Implementation-Version>${project.version}</Implementation-Version>
+                <Implementation-Build>${buildNumber}</Implementation-Build>
+                <Build-Timestamp>${timestamp}</Build-Timestamp>
+                <!--suppress UnresolvedMavenProperty -->
+                <Hudson-Build-Number>${BUILD_NUMBER}</Hudson-Build-Number>
+                <!--suppress UnresolvedMavenProperty -->
+                <Hudson-Project>${JOB_NAME}</Hudson-Project>
+                <ingridComponentType>${iplug.type}</ingridComponentType>
+              </manifestEntries>
+            </archive>
+            <descriptors>
+              <descriptor>src/main/assembly/bin.xml</descriptor>
+            </descriptors>
+          </configuration>
+          <executions>
+            <execution>
+              <id>make-installer</id>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
+
+    <!--
+      The following plugins will be added automatically to the child pom.
+    -->
     <plugins>
+
+      <!--
+        This plugin unpacks the installer which will be used by the assembly plugin to create the installer.
+      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -101,28 +166,10 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.0.0</version>
-        <configuration>
-          <appendAssemblyId>true</appendAssemblyId>
-          <archive>
-            <manifest>
-              <mainClass>org.tp23.antinstaller.selfextract.NonExtractor</mainClass>
-            </manifest>
-            <manifestEntries>
-              <Implementation-Version>${project.version}</Implementation-Version>
-              <Implementation-Build>${buildNumber}</Implementation-Build>
-              <Build-Timestamp>${timestamp}</Build-Timestamp>
-              <Hudson-Build-Number>${BUILD_NUMBER}</Hudson-Build-Number>
-              <Hudson-Project>${JOB_NAME}</Hudson-Project>
-            </manifestEntries>
-          </archive>
-          <descriptors>
-            <descriptor>src/main/assembly/bin.xml</descriptor>
-          </descriptors>
-        </configuration>
-      </plugin>
+
+      <!--
+        This plugin prepares the installer by copying needed libraries and resources.
+      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -151,6 +198,10 @@
           </execution>
         </executions>
       </plugin>
+
+      <!--
+        This plugin is configured to send an email with the changes defined in src/changes/changes.xml.
+      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
@@ -165,12 +216,12 @@
           <toAddresses>
             <toAddress implementation="java.lang.String">ingrid-announcement@wemove.com</toAddress>
           </toAddresses>
-          <issueManagement>
-            <system>Redmine</system>
-            <url>https://dev.informationgrid.eu/redmine</url>
-          </issueManagement>
         </configuration>
       </plugin>
+
+      <!--
+        This plugin configures the git-flow for this project
+      -->
       <plugin>
         <groupId>external.atlassian.jgitflow</groupId>
         <artifactId>jgitflow-maven-plugin</artifactId>
@@ -180,10 +231,39 @@
           <noDeploy>true</noDeploy>
         </configuration>
       </plugin>
+
+      <!--
+        DEPRECATED: This plugin adds a Manifest entry to a JAR file. The value is used by the Updater project
+        which is no longer used.
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <!-- see ingrid-utils:de.ingrid.utils.metadata.IPlugType-->
+              <iPlug-Type>${iplug.type}</iPlug-Type>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
+  <issueManagement>
+    <system>Redmine</system>
+    <url>https://redmine.informationgrid.eu/</url>
+  </issueManagement>
+
+  <!--
+    The following profiles define additional behaviors and can be manually activated or some even automatically.
+  -->
   <profiles>
+
+    <!--
+      During release check if the changes.xml is valid.
+    -->
     <profile>
       <id>validate-changes-on-release</id>
       <activation>
@@ -211,7 +291,9 @@
       </build>
     </profile>
 
-    <!-- Activate docker execution -->
+    <!--
+      Activate docker execution
+    -->
     <profile>
       <id>docker</id>
       <build>
@@ -225,8 +307,9 @@
     </profile>
 
     <!-- 
-        Activate when on branch develop -> -P $(git rev-parse \-\-abbrev-ref HEAD)
-        Set latest tag to created docker image
+        Push docker image when on branch develop (usage: -P $(git rev-parse \-\-abbrev-ref HEAD))
+        Also set latest tag to the created docker image. So every build on develop will get the
+        latest-tag.
     -->
     <profile>
       <id>docker-develop</id>
@@ -247,6 +330,9 @@
       </build>
     </profile>
 
+    <!--
+      This profile allows SNAPSHOT versions and overrides release-profile (below)
+    -->
     <profile>
       <id>requireSnapshotVersion</id>
       <build>
@@ -254,7 +340,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-enforcer-plugin</artifactId>
-            <version>3.0.0-M1</version>
+            <version>3.0.0-M2</version>
             <executions>
               <execution>
                 <id>enforce-no-releases</id>
@@ -277,6 +363,11 @@
       </build>
     </profile>
 
+    <!--
+      When performing a release the no SNAPSHOTS are allowed, the licence header has to be applied to all
+      files and the changes.xml must be valid for the release version.
+      Moreover the release installer will be copied to the distribution directory.
+    -->
     <profile>
       <id>release</id>
       <build>
@@ -284,7 +375,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-enforcer-plugin</artifactId>
-            <version>3.0.0-M1</version>
+            <version>3.0.0-M2</version>
             <executions>
               <execution>
                 <id>enforce-no-snapshots</id>
@@ -356,6 +447,66 @@
             </executions>
           </plugin>
         </plugins>
+      </build>
+    </profile>
+
+    <!--
+      This profile is activated automatically if you use the base-webapp in your project. This will unpack the
+      webapp into the target directory for further usage.
+    -->
+    <profile>
+      <id>base-webapp</id>
+      <activation>
+        <file>
+          <exists>src/main/webapp/WEB-INF/jsp/iplug-pages/iplugSubNavi.jsp</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>unpack-base-webapp</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>unpack</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>de.ingrid</groupId>
+                      <artifactId>ingrid-base-webapp</artifactId>
+                      <classifier>res</classifier>
+                      <type>zip</type>
+                      <outputDirectory>${project.build.directory}/base-webapp</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+      Activate the development-profile when using in Eclipse/IDEA
+      This will use the develop-resources for startup, which is helpful
+      during development.
+    -->
+    <profile>
+      <id>development</id>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/develop/resources</directory>
+          </resource>
+          <resource>
+            <directory>src/main/resources</directory>
+          </resource>
+        </resources>
       </build>
     </profile>
   </profiles>
