@@ -1,8 +1,7 @@
 <!--
   This POM is used for components that need to be installed.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <artifactId>ingrid-base-pom</artifactId>
     <groupId>de.ingrid</groupId>
@@ -182,14 +181,14 @@
               <tasks>
                 <unjar dest="target/installer">
                   <fileset dir="target/dependency/lib">
-                    <include name="**/*.jar"/>
+                    <include name="**/*.jar" />
                   </fileset>
                 </unjar>
                 <copy todir="target/installer/resources">
-                  <fileset dir="target/dependency/resources"/>
+                  <fileset dir="target/dependency/resources" />
                 </copy>
                 <copy todir="target/installer">
-                  <fileset dir="target/dependency/utils"/>
+                  <fileset dir="target/dependency/utils" />
                 </copy>
               </tasks>
             </configuration>
