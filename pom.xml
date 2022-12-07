@@ -10,7 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ingrid-releases-pom</artifactId>
   <packaging>pom</packaging>
-  <version>5.15.0.3324-SNAPSHOT</version>
+  <version>5.14.3</version>
   <name>InGrid POM Release</name>
 
   <!-- ==================== Source Code Management ==================== -->
