@@ -200,29 +200,6 @@
       </plugin>
 
       <!--
-        This plugin is configured to send an email with the changes defined in src/changes/changes.xml.
-      -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <version>2.12.1</version>
-        <configuration>
-          <smtpHost>mail.informationgrid.eu</smtpHost>
-          <subject>[ingrid update announcement] ${project.build.finalName}</subject>
-          <mailSender>
-            <name>Release Notification</name>
-            <email>noreply@wemove.com</email>
-          </mailSender>
-          <toAddresses>
-            <toAddress implementation="java.lang.String">ingrid-announcement@wemove.com</toAddress>
-          </toAddresses>
-          <issueLinkTemplatePerSystem>
-            <Redmine>%URL%/issues/%ISSUE%</Redmine>
-          </issueLinkTemplatePerSystem>
-        </configuration>
-      </plugin>
-
-      <!--
         This plugin configures the git-flow for this project
       -->
       <plugin>
@@ -263,36 +240,6 @@
     The following profiles define additional behaviors and can be manually activated or some even automatically.
   -->
   <profiles>
-
-    <!--
-      During release check if the changes.xml is valid.
-    -->
-    <profile>
-      <id>validate-changes-on-release</id>
-      <activation>
-        <property>
-          <name>performRelease</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-changes-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>check-changes</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>changes-check</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
 
     <!--
       Activate docker execution
@@ -406,33 +353,6 @@
               <failOnMissingHeader>true</failOnMissingHeader>
               <failOnNotUptodateHeader>true</failOnNotUptodateHeader>
             </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-changes-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>changes-check</id>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>changes-check</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>changes-report</id>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>changes-report</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>changes-announcement-mail</id>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>announcement-mail</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
