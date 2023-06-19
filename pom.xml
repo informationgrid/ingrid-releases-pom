@@ -31,7 +31,7 @@
     <dependency>
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-installer</artifactId>
-      <version>3.6.1</version>
+      <version>6.2.0-SNAPSHOT</version>
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
