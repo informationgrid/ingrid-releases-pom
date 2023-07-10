@@ -248,6 +248,11 @@
       <id>docker</id>
       <build>
         <plugins>
+          <!-- make sure assembly plugin is executed in the right order-->
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+          </plugin>
+
           <plugin>
             <groupId>com.spotify</groupId>
             <artifactId>docker-maven-plugin</artifactId>
