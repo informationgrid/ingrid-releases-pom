@@ -5,12 +5,12 @@
   <parent>
     <artifactId>ingrid-base-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>5.0.0</version>
+    <version>7.0.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ingrid-releases-pom</artifactId>
   <packaging>pom</packaging>
-  <version>6.3.0-SNAPSHOT</version>
+  <version>7.0.0-SNAPSHOT</version>
   <name>InGrid POM Release</name>
 
   <!-- ==================== Source Code Management ==================== -->
@@ -178,7 +178,7 @@
             <id>prepare-installer</id>
             <phase>prepare-package</phase>
             <configuration>
-              <tasks>
+              <target>
                 <unjar dest="target/installer">
                   <fileset dir="target/dependency/lib">
                     <include name="**/*.jar" />
@@ -190,7 +190,7 @@
                 <copy todir="target/installer">
                   <fileset dir="target/dependency/utils" />
                 </copy>
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>
