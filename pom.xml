@@ -5,12 +5,12 @@
   <parent>
     <artifactId>ingrid-base-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>5.0.0</version>
+    <version>7.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ingrid-releases-pom</artifactId>
   <packaging>pom</packaging>
-  <version>6.2.0</version>
+  <version>7.0.0</version>
   <name>InGrid POM Release</name>
 
   <!-- ==================== Source Code Management ==================== -->
@@ -31,7 +31,7 @@
     <dependency>
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-installer</artifactId>
-      <version>6.2.0</version>
+      <version>7.0.0</version>
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
@@ -173,12 +173,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <id>prepare-installer</id>
             <phase>prepare-package</phase>
             <configuration>
-              <tasks>
+              <target>
                 <unjar dest="target/installer">
                   <fileset dir="target/dependency/lib">
                     <include name="**/*.jar" />
@@ -190,7 +191,7 @@
                 <copy todir="target/installer">
                   <fileset dir="target/dependency/utils" />
                 </copy>
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>
