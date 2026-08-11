@@ -10,7 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ingrid-releases-pom</artifactId>
   <packaging>pom</packaging>
-  <version>7.1.0-SNAPSHOT</version>
+  <version>8.5.0-SNAPSHOT</version>
   <name>InGrid POM Release</name>
 
   <!-- ==================== Source Code Management ==================== -->
@@ -64,10 +64,10 @@
           <artifactId>docker-maven-plugin</artifactId>
           <version>${docker-plugin.version}</version>
           <configuration>
-            <imageName>docker-registry.wemove.com/${project.artifactId}:${project.version}</imageName>
+            <imageName>registry.opencode.de/informationgrid/${project.artifactId}:${project.version}</imageName>
             <dockerDirectory>src/docker</dockerDirectory>
             <!-- user configured server in mavens settings.xml -->
-            <serverId>docker-wemove</serverId>
+            <serverId>docker-opencode</serverId>
             <resources>
               <resource>
                 <targetPath>/</targetPath>
