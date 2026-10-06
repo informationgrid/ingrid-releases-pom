@@ -1,4 +1,11 @@
 
+## 8.5.0 (06.10.2026)
+
+### Features
+
+* Umstellung von docker-registry.wemove.com auf registry.opencode.de (#2419)
+
+    
 ## 7.0.0 (05.01.2024)
 
 ### Features
